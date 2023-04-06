@@ -1,30 +1,28 @@
-// 题目描述:setinterval 用来实现循环定时调用 可能会存在一定的问题 能用 settimeout 解决吗
-function mySetInterVal(fn, time) {
-    let timer;
-    function interval() {
-        fn();
-        timer = setTimeout(interval, time);
+// 为什么要用setTimeout模拟setInterval?
+// 因为 如果主线程发生阻塞，而setInterval的时间间隔又很短，这个时候，到第二个间隔的时候，执行的是第一个setInterval的事件，第二个事件将会被取消
+function mySetInterval(fn, t) {
+    let timer = null
+    function interval(){
+        fn()
+        timer = setTimeout(interval,t)
     }
-    interval();
+    interval()
     return {
-        cancel:() => {
+        clear:() => {
             clearTimeout(timer)
         }
     }
 }
-mySetInterVal(() => {
+const aa = mySetInterval(() => {
     console.log(1111);
-}, 1000);
+}, 5000);
+// aa.clear()
 
-
-// 扩展：我们能反过来使用setInterval 模拟实现setTimeout吗？ 
-function mySetTimeout(fn,time){
-    let timer
+// 如果用setInterval实现setTimeout呢？
+function mySetTimeout(fn, t) {
+    let timer = null
     timer = setInterval(() => {
-        fn();
+        fn()
         clearInterval(timer)
-    },time)
+    },t)
 }
-mySetTimeout(() => {
-    console.log(22222);
-}, 1000);
