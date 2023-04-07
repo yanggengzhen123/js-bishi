@@ -1,7 +1,13 @@
 // 手写new操作符
-
-function myNew(fn,...args){
-    
+function myNew(Parent,...args){
+  let obj = {}
+  obj = Object.create(Parent.prototype)
+  let res = Parent.apply(obj,args)
+  // 如果Person有return且 return的是object或function
+  if(res && (typeof res === 'object' || typeof res === 'function')){
+    return res
+  }
+  return obj
 }
 
 
