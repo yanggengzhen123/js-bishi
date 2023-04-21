@@ -1,17 +1,17 @@
 function currying(fn, ...args) {
-    let fnLength = fn.fnLength // 4
+    let fnLength = fn.length
     // 利用闭包
     let allArgs = [...args]
-    const res = (...rest) => {
-        allArgs = [...args,...rest]
-        if(allArgs.length ===fnLength){
+    const res = (...childArgs) => {
+        allArgs = [...allArgs,...childArgs]
+        if(allArgs.length === fnLength){
             return fn(...allArgs)
         }else{
             return res
         }
     }
     return res
-}
+} 
 
 // 用法如下：
 const add = (a, b, c, d) => a + b + c + d;

@@ -1,9 +1,10 @@
 const myInstanceOf = (left,right) => {
     while(true){
-        if(!left) return false
-        console.log(left);
-        if(left.__proto__ === right.prototype) return true
+        if(left === null) return false
         left = left.__proto__
+        if(left === right.prototype){
+            return true
+        }
     }
 }
 let myInstance = 5

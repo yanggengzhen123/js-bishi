@@ -2,32 +2,31 @@
 // JS 实现一个带并发限制的异步调度器 Scheduler，保证同时运行的任务最多有两个
 class Scheduler {
     constructor(limit){
-        this.maxCount = limit
-        this.asyncPool = [] // 存放所有promise实例
-        this.runCount = 0 // 正在进行的个数
+        this.asyncPool = [] // 存放promise实例的缓存
+        this.max = limit 
+        this.runCount = 0 //正在执行的异步promise
     }
-    add(time, order){
-        const asyncPromise = () => {
-            return new Promise((resolve) => {
+    add(time,order){
+        this.asyncPool.push(
+            new Promise(resolve => {
                 setTimeout(() => {
-                    console.log(order);
                     resolve(order)
                 },time)
             })
-        }
-        this.asyncPool.push(asyncPromise)
+        )
     }
     taskStart(){
-        for(let i = 0;i < this.maxCount;i++){
+        for(let i = 0;i < this.max;i++){
             this.request()
         }
     }
+    // 递归遍历
     request(){
-        if(!this.asyncPool || !this.asyncPool.length || this.runCount >= this.maxCount) return
+        if(this.runCount > this.max || this.asyncPool.length <= 0) return
         this.runCount++
-        this.asyncPool.shift()().then(() => {
+        this.asyncPool.shift()().then(res => {
             this.runCount--
-            this.request() //递归request
+            this.request()
         })
     }
 }
