@@ -2,7 +2,7 @@ const isObject = (obj) => typeof obj === 'object' && typeof obj !== null
 const deepClone = (obj,hash = new WeakMap()) => {
     if(!isObject(obj)) return obj
     if(hash.has(obj)){
-        return has.get(obj)
+        return hash.get(obj)
     }
     let deepObj = Array.isArray(obj) ? [] : {}
     hash.set(obj,deepObj)

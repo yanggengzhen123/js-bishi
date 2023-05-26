@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .abc {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div>
+            <div>
+                <div>
+                    <p>1111</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let root = document.querySelector('#root')
+    // dfs深度遍历
+    function find(root,depth){
+        const dfs = (root,depth) => {
+            if(depth >= 4){
+                root.className = 'abc'
+                return 
+            }
+            let childrens = root.childNodes
+            childrens.forEach(element => {
+                dfs(element,depth++)
+            });
+        }
+        dfs(root,0)
+    }
+    find(root,0)
+</script>
+</html>
